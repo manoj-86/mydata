@@ -1,0 +1,66 @@
+Install Java 8
+#sudo yum install java-1.8.0-openjdk-devel -y
+
+#sudo wget  https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.4.zip
+#ls
+
+#sudo unzip sonarqube-6.4.zip -d /opt
+#sudo mv /opt/sonarqube-6.4 /opt/sonarqube
+
+#sudo vim  /etc/systemd/system/sonar.service
+
+[Unit]
+Description=SonarQube service
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
+
+User=root
+Group=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+#sudo systemctl daemon-reload
+
+#sudo systemctl enable sonar 
+      
+#sudo systemctl restart   sonar
+#netstat -ntlup
+
+
+
+Postgresql Client Install
+=========================
+#sudo yum install https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm -y
+  
+#sudo yum install postgresql10 -y
+
+ 
+
+#sudo vim  /opt/sonarqube/conf/sonar.properties
+
+
+onar.jdbc.username=sonar
+
+sonar.jdbc.password=StrongPassword
+
+sonar.jdbc.url=jdbc:postgresql://localhost/sonar
+sonar.jdbc.url=jdbc:postgresql://192.168.122.30:5432/sonar
+
+
+
+:wq
+
+
+
+#systemctl restart sonar 
+
+
+
