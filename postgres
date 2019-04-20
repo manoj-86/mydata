@@ -1,0 +1,79 @@
+https://www.vultr.com/docs/how-to-install-sonarqube-on-centos-7
+
+https://www.postgresql.org/download/linux/redhat/
+
+
+#sudo yum install https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm -y
+#sudo yum install postgresql10 -y
+#sudo yum install postgresql10-server -y
+#/usr/pgsql-10/bin/postgresql-10-setup initdb
+#sudo systemctl enable postgresql-10
+#sudo systemctl start   postgresql-10
+#sudo yum  install  wget  vim  net-tools -y
+   
+   
+Get location of postgresql.conf file by executing command (it should be something like /var/lib/pgsql/10/data/postgresql.conf):
+
+#find / -name "postgresql.conf"
+
+Open postgresql.conf file and add the following line to the end:
+
+#sudo vim /var/lib/pgsql/10/data/postgresql.conf
+
+listen_addresses = '*'
+
+#vim  /var/lib/pgsql/10/data/postgresql.conf
+        listen_addresses = '*'
+     
+#find  / -name pg_hba.conf
+Add the following line to the end of /var/lib/pgsql/10/data/pg_hba.conf file:
+
+#host all all 203.0.113.2/32 md5
+ 
+#vim  /var/lib/pgsql/10/data/pg_hba.conf
+
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust (This should be trust)
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5 (This should be ask password)
+# IPv6 local connections:
+host    all             all             ::1/128                 ident
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     peer
+host    replication     all             127.0.0.1/32            ident
+host    replication     all             ::1/128                 ident
+host all all 192.168.122.10/32 md5   (IP is the sonar server ip)
+
+
+
+#sudo systemctl restart   postgresql-10
+#id postgres
+#passwd postgres
+#su - postgres 
+     
+
+ Create a new user by typing:
+
+# createuser sonar
+
+       
+      
+ Switch to the PostgreSQL shell.
+
+# psql
+
+ Set a password for the newly created user for SonarQube database.
+
+#ALTER USER sonar WITH ENCRYPTED password 'redhat';
+
+Create a new database for PostgreSQL database by running:
+
+CREATE DATABASE sonar OWNER sonar;
+ 
+
+#systemctl restart   postgresql-10
+
